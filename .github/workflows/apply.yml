@@ -15,7 +15,7 @@ on:
 
 env:
   REGION: eu-central-1
-  BUCKET: vpc-ec2
+  BUCKET: vpc-ec2bucket
   TFSTATE_FILE: new.tfstate eu
   DB_TABLE: vpc-ec2
 
