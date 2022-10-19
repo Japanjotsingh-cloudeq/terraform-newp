@@ -1,4 +1,4 @@
-name : 'Terraform'
+name : 'Terraform 2'
 
 on:
   workflow_dispatch:
@@ -10,15 +10,14 @@ on:
     #     # default: ''u-east-1
     #     # Input has to be provided for the workflow to run
     #     required: true
-  push:
-    branches: [ "main" ]
+  # push:
+  #   branches: [ "main" ]
 
 env:
   REGION: eu-central-1
   BUCKET: vpc-ec2
   TFSTATE_FILE: new.tfstate eu
   DB_TABLE: vpc-ec2
-
 
 jobs:
   terraform:
@@ -42,7 +41,7 @@ jobs:
           aws-secret-access-key:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-session-token:      ${{ secrets.AWS_SESSION_TOKEN }} add token in secrets
 
-          aws-region: ${{ env.REGION }}                      #${{ github.event.inputs.region-value }}      
+          aws-region: ${{ env.REGION }}                         #${{ github.event.inputs.region-value }}      
 
       - name: Terraform Init
         id: init
@@ -51,16 +50,8 @@ jobs:
          -backend-config="bucket=$BUCKET" 
          -backend-config="key=$TFSTATE_FILE" 
          -backend-config="dynamodb_table=$DB_TABLE"
-      
-      
-      - name: Terraform validate
-        id: validate
-        run: terraform validate 
+         
 
-      - name: Terraform Plan
-        id: plan
-        run: terraform plan -no-color
-
-      - name: Terraform Apply
-        id: apply
-        run:  terraform apply -auto-approve
+      - name: Terraform destroy
+        id: destroy
+        run:  terraform destroy -auto-approve
