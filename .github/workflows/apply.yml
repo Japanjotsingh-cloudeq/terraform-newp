@@ -59,7 +59,7 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -no-color
+        run: terraform plan -no-color -state=false
 
       - name: Terraform Apply
         id: apply
